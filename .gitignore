@@ -1,0 +1,4 @@
+Typora/
+_pycache_/
+*.pyc
+venv/
