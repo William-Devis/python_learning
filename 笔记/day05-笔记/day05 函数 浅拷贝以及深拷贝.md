@@ -398,6 +398,361 @@ print(list1[3] is list2[3])
 print(id(list1[3]),id(list2[3]))
 ~~~
 
+### 7. 返回值
+
+> 有些函数在执行的时候，需要有返回值给调用者，通过return关键字进行返回，返回到函数调用的位置。return 用于在函数体内返回结果 返回给函数的调用者
+> return表示结束函数并且返回内容
+
+#### 7.1 为什么要使用返回值
+
+~~~python
+"""
+    有些函数在执行的时候，需要有返回值给调用者，通过return关键字进行返回，返回到函数调用的位置。
+
+    需求：编写函数计算两个函数之和 在函数之外判断最终的结果是奇数还是偶数
+
+    return 用于在函数体内返回结果 返回给函数的调用者
+    return表示结束函数并且返回内容
+
+"""
+
+def my_sum(a,b):
+    result = a + b
+    print("a与b之和为：",result)
+
+get_data = my_sum(2,2)
+
+print(get_data)
+
+if 4 % 2 == 0:
+    print("偶数")
+else:
+    print("奇数")
+
+# 以上代码可以实现求和 但是 无法在后续的代码中利用最终的和 所以无法进行判断 相当于逻辑无法串联
+# 如何让解决以上问题?使用return关键字 返回值实现
+
+
+print("-----------------------------------------------------------")
+
+
+def my_add(a,b):
+    result = a + b
+    print("a与b之和为:",result)
+    return result
+    print("函数继续运行") # 在Java代码中这里就报错 但是在Python中不报错 但同样永远执行不到
+
+get_sum = my_add(24324,4)
+
+if get_sum % 2 == 0 :
+    print("偶数")
+else:
+    print("奇数")
+~~~
+
+#### 7.2 return的各种用法
+
+~~~python
+"""
+    return关键字的其他用法
+"""
+
+def is_even(num):
+    # if num % 2 == 0:
+    #     return "偶数"
+    # else:
+    #     return "奇数"
+
+    return "偶数" if num % 2 ==0 else "奇数"
+
+print(is_even) # 只写函数名 属于打印函数对象 展示函数的基本信息
+print(is_even(10)) # 调用函数 并且得到返回值交给print函数打印
+print(is_even(11)) # 调用函数 并且得到返回值交给print函数打印
+
+
+def is_even1(num):
+    # if num % 2 == 0:
+    #     return True
+    # else:
+    #     return False
+    return num % 2 == 0
+print(is_even(10)) # 调用函数 并且得到返回值交给print函数打印
+print(is_even(11)) # 调用函数 并且得到返回值交给print函数打印
+
+def is_even2(num):
+    # if num % 2 == 0:
+    #     return 0
+    # else:
+    #     return 1
+    return num % 2
+
+print(is_even2(10)) # 调用函数 并且得到返回值交给print函数打印
+print(is_even2(11)) # 调用函数 并且得到返回值交给print函数打印
+
+print("-------------------------------------------------------")
+
+def func():
+    for i in range(10):
+        if i == 8:
+            return # 注意和break的区别
+        print(i)
+    print("func函数执行完毕")
+
+func()
+~~~
+
+#### 7.3 返回多个值
+
+~~~python
+"""
+    return关键字的其他用法
+    return 后边返回多个值
+    使用多个变量分别接收各个返回值 这个操作 也属于解包
+"""
+
+def func():
+    return 1 , 2 , 3 , [4,5,6]
+
+r1 = func() # 只写一个变量接收 所有的返回值将会自动被打包成一个元组
+print(r1)
+
+a1 , a2 , a3 , a4 = func() # 书写对与返回值相应数量的变量接收 分开处理 这种也属于解包操作
+print(a1 ,a2, a3, a4)
+
+b1 , b2 = func() # 这里报错 不允许指定不同数量的变量接收
+print(b1, b2)
+
+print("-------------------------------------------------")
+
+def func_1(a,b,c):
+    print(a,b,c)
+
+list1 = [1,2,3]
+func_1(*list1)
+~~~
+
+### 8. 多级调用
+
+~~~python
+"""
+    自定义的函数之间 直接调用
+
+    栈 stack 先进后出 后进先出 FILO
+    函数执行是要进栈的 栈是一种数据结构 先进栈的 后出栈
+
+"""
+
+def my_func2():
+    print("my_func2 开始执行")
+    print("my_func2 执行完毕")
+
+def my_func1():
+    print("my_func2 开始执行**********")
+    my_func2()
+    print("my_func2 执行完毕**********")
+
+my_func1()
+~~~
+
+### 9. 递归
+
+~~~python
+"""
+    递归: recursive 递归和回归
+
+    简单的理解: 函数自己调自己
+
+    准确的理解：
+    一个大的问题可以通过逻辑拆分为若干个小的问题 可以通过一个函数自己调用当前函数实现
+    必须有结束的条件(递归的出口)
+
+    举例：
+    赵四  广坤  小宝  富贵  大拿
+
+
+
+    递归的实际应用:
+        求 1 ~ n之和
+        求阶乘
+        很多算法都会用到递归 快排 归并
+        斐波那契数列
+        八皇后算法
+        遍历文件
+        汉诺塔问题
+"""
+
+# def func1():
+#     func1()
+#
+# func1() 这段代码 报错 因为没有结束条件
+
+print("--------------------------求1~5之和--------------------------")
+
+def get_num5():
+    return 5 + get_num4()
+
+def get_num4():
+    return 4 + get_num3()
+
+def get_num3():
+    return 3 + get_num2()
+
+def get_num2():
+    return 2 + get_num1()
+
+def get_num1():
+    return 1
+
+print(get_num5())
+
+print("-------------------------求1~n之和 递归实现--------------------------")
+
+def get_sum(num):
+    if num == 1:
+        return 1
+    return num + get_sum(num - 1)
+
+print(get_sum(5))
+
+print("-------------------------求1~n之和 递归实现--------------------------")
+
+def get_factorial(num):
+    if num < 1 or num == 1:
+        return 1
+    return num * get_factorial(num - 1)
+
+print(get_factorial(5))
+~~~
+
+### 10.  lambda表达式
+
+#### 10.1 介绍
+
+> lambda 匿名函数 面向函数编程 不关注谁来做 只关注做什么
+
+~~~python
+"""
+    lambda 匿名函数 面向函数编程 不关注谁来做 只关注做什么
+    ctrl + alt + L 自动格式化对齐代码
+"""
+
+def add(a,b):
+    return a + b
+
+def sub(a,b):
+    return a - b
+
+def mul(a,b):
+    return a * b
+
+def div(a,b):
+    return a / b
+
+def operation(a,b,func):
+    return func(a,b)
+
+print(add)
+print(sub)
+print(mul)
+print(div)
+
+print(operation(1, 2, mul))
+
+print("*" * 50)
+
+operation(1,2,lambda a ,b : a + b)
+
+print(lambda a ,b : a + b)
+print(type(lambda a ,b : a + b))
+~~~
+
+#### 10.2 常用函数
+
+~~~python
+"""
+    lambada主要作用 用于处理数据的 是一种语法简洁的优化方式
+    使用lambda处理数据
+"""
+from functools import reduce
+
+# list1 = [2,1,4,6,3]
+# list1.sort(reverse=True)
+# print(list1)
+# print(sorted(list1,reverse=True)) 排序操作 reverse = True 表示降序
+
+
+person_list = [
+    {"name": "jack", "age": 21, "address": "深圳"},
+    {"name": "jeery", "age": 11, "address": "深圳"},
+    {"name": "tom", "age":35, "address": "广州"},
+    {"name": "john", "age": 25, "address": "广州"},
+    {"name": "Lily", "age": 55, "address": "北京"},
+]
+
+print("---------------------------sorted函数 排序---------------------------------")
+# 按照年龄升序或者降序排序 reverse=True 表示降序
+print(sorted(person_list,key=lambda p : p["age"],reverse=True))
+
+print(sorted(person_list,key=lambda p : p["name"],reverse=True))
+
+print("---------------------------map函数 映射---------------------------------")
+# 呈现每个人姓名的大写形式
+
+print(list(map(lambda p: p["name"].upper(), person_list)))
+
+print("---------------------------filter函数 过滤---------------------------------")
+# 查找地址为深圳的人
+print(list(filter(lambda p: p["address"] == "深圳", person_list)))
+
+# 查找未成年的人
+print(list(filter(lambda p: p["age"] < 18, person_list)))
+
+print("---------------------------reduce函数 合并操作---------------------------------")
+
+print(reduce(lambda x, y: x + y, [1, 2, 3, 4, 5]))
+
+# 统计列表中所有人的年龄综合
+# print(reduce(lambda p1, p2: p1["age"] + p2["age"], person_list)) # 这里报错 因为年龄相加之后 无法直接赋值给某个字典对象
+
+person_list = [
+    {"name": "jack", "age": 21, "address": "深圳"},
+    {"name": "jeery", "age": 11, "address": "深圳"},
+    {"name": "tom", "age":35, "address": "广州"},
+    {"name": "john", "age": 25, "address": "广州"},
+    {"name": "Lily", "age": 55, "address": "北京"},
+]
+
+print(reduce(lambda p1, total_age: p1["age"] + total_age, person_list))
+
+
+~~~
+
+### 10. 函数的注释(了解)
+
+~~~python
+"""
+    多行注释 本质为实现字符串
+"""
+
+
+def dog (name:str, age:(1, 99),species:'狗狗的品种') -> tuple:
+    """
+    这个函数用于讲解函数的注释
+    :param name:这是名字参数
+    :param age:这是年龄参数
+    :param species:品种参数
+    :return:返回值
+    """
+    print(name , age , species)
+    return True
+
+dog(123,"abc",True)
+
+print(dog.__annotations__)
+
+help(dog)
+~~~
+
 
 
 
